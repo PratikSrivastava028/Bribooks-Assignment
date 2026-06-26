@@ -125,12 +125,7 @@ export async function getServerSideProps({ params }) {
     });
     
     if (!res.ok) {
-      return {
-        props: {
-          product: null,
-          error: true,
-        },
-      };
+      throw new Error(`Failed to fetch status: ${res.status}`);
     }
     
     const product = await res.json();
