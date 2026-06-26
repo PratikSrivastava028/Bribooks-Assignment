@@ -45,13 +45,14 @@ export default function ProductDetails({ product, error }) {
 
         <main className="flex-grow-1 bg-light py-5">
           <div className="container py-lg-4">
-            <div className="mb-4">
-              <Link href="/" className="text-decoration-none text-muted fw-medium d-inline-flex align-items-center">
-                <i className="bi bi-arrow-left me-2"></i> Back to Products
-              </Link>
-            </div>
+            <div className="bg-white rounded-4 shadow-sm border overflow-hidden">
+              <div className="px-4 px-md-5 pt-4 pt-md-5 pb-2">
+                <Link href="/" className="text-decoration-none text-muted fw-medium d-inline-flex align-items-center">
+                  <i className="bi bi-arrow-left me-2"></i> Back to Products
+                </Link>
+              </div>
 
-            <div className="row g-5 align-items-center bg-white p-4 p-md-5 rounded-4 shadow-sm border">
+              <div className="row g-5 align-items-center p-4 p-md-5 pt-0">
               <div className="col-12 col-md-6 text-center">
                 <div className={styles.imageContainer}>
                   <img 
@@ -100,6 +101,7 @@ export default function ProductDetails({ product, error }) {
                     <i className="bi bi-heart me-2"></i> Save
                   </button>
                 </div>
+              </div>
               </div>
             </div>
           </div>
