@@ -6,6 +6,8 @@ import ProductGrid from '@/components/ProductGrid';
 import Loader from '@/components/Loader';
 import EmptyState from '@/components/EmptyState';
 import Pagination from '@/components/Pagination';
+import fs from 'fs';
+import path from 'path';
 
 export default function Home({ initialProducts, error }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -122,12 +124,28 @@ export async function getServerSideProps() {
       },
     };
   } catch (error) {
-    console.error("Error fetching products:", error);
-    return {
-      props: {
-        initialProducts: [],
-        error: true,
-      },
-    };
+    console.error("Error fetching products from API, falling back to local data:", error);
+    
+    try {
+      const filePath = path.join(process.cwd(), 'data', 'fallbackProducts.json');
+      const jsonData = fs.readFileSync(filePath, 'utf8');
+      const fallbackProducts = JSON.parse(jsonData);
+      
+      return {
+        props: {
+          initialProducts: fallbackProducts,
+          error: false,
+          isFallback: true
+        },
+      };
+    } catch (fallbackError) {
+      console.error("Fallback also failed:", fallbackError);
+      return {
+        props: {
+          initialProducts: [],
+          error: true,
+        },
+      };
+    }
   }
 }

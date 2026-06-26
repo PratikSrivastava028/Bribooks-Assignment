@@ -3,6 +3,8 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import styles from '@/styles/ProductDetails.module.css';
+import fs from 'fs';
+import path from 'path';
 
 export default function ProductDetails({ product, error }) {
   if (error || !product) {
@@ -140,12 +142,39 @@ export async function getServerSideProps({ params }) {
       },
     };
   } catch (error) {
-    console.error("Error fetching product details:", error);
-    return {
-      props: {
-        product: null,
-        error: true,
-      },
-    };
+    console.error("Error fetching product details from API, falling back to local data:", error);
+    
+    try {
+      const filePath = path.join(process.cwd(), 'data', 'fallbackProducts.json');
+      const jsonData = fs.readFileSync(filePath, 'utf8');
+      const fallbackProducts = JSON.parse(jsonData);
+      
+      const fallbackProduct = fallbackProducts.find(p => p.id.toString() === params.id.toString());
+      
+      if (!fallbackProduct) {
+        return {
+          props: {
+            product: null,
+            error: true,
+          }
+        };
+      }
+      
+      return {
+        props: {
+          product: fallbackProduct,
+          error: false,
+          isFallback: true
+        }
+      };
+    } catch (fallbackError) {
+      console.error("Fallback also failed:", fallbackError);
+      return {
+        props: {
+          product: null,
+          error: true,
+        },
+      };
+    }
   }
 }
