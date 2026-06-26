@@ -1,7 +1,5 @@
 # ShopSphere Ecommerce Assignment
 
-**Live Demo:** [https://bribooks-assignment.onrender.com](https://bribooks-assignment.onrender.com)
-
 A frontend ecommerce application built with Next.js (Pages Router) and Bootstrap 5. It fetches product data from the FakeStore API and displays it in a responsive grid.
 
 ## Features

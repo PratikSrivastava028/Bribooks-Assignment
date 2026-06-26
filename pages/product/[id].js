@@ -115,7 +115,12 @@ export default function ProductDetails({ product, error }) {
 
 export async function getServerSideProps({ params }) {
   try {
-    const res = await fetch(`https://fakestoreapi.com/products/${params.id}`);
+    const res = await fetch(`https://fakestoreapi.com/products/${params.id}`, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'application/json'
+      }
+    });
     
     if (!res.ok) {
       return {
