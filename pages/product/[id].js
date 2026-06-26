@@ -142,8 +142,7 @@ export async function getServerSideProps({ params }) {
       },
     };
   } catch (error) {
-    console.error("Error fetching product details from API, falling back to local data:", error);
-    
+    // API is unavailable (e.g. 403 from Render), silently fallback to local data
     try {
       const filePath = path.join(process.cwd(), 'data', 'fallbackProducts.json');
       const jsonData = fs.readFileSync(filePath, 'utf8');
@@ -168,7 +167,6 @@ export async function getServerSideProps({ params }) {
         }
       };
     } catch (fallbackError) {
-      console.error("Fallback also failed:", fallbackError);
       return {
         props: {
           product: null,
